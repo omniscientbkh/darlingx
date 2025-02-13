@@ -1,0 +1,2691 @@
+/* Подключаем шрифты */
+@font-face {
+    font-family: 'Soyuz Grotesk';
+    src: url('Soyuz Grotesk.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Good Vibes Pro';
+    src: url('Good Vibes Pro.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Определяем переменные для шрифтов */
+:root {
+    --soyuz-font: 'Soyuz Grotesk', sans-serif;
+    --vibes-font: 'Good Vibes Pro', cursive;
+    --primary-color: #e0bf00;
+    --bg-color: #FAFAFA;
+    --text-color: #000;
+    --grid-color: rgba(224, 191, 0, 0.2);
+    --gradient-color-1: rgba(224, 191, 0, 0.1);
+    --gradient-color-2: rgba(224, 191, 0, 0.05);
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F5F5F7;
+    --text-primary: #1A1A1A;
+    --text-secondary: #404040;
+    --accent: #e0bf00;
+    --accent-light: rgba(224, 191, 0, 0.15);
+    --accent-medium: rgba(224, 191, 0, 0.25);
+    --accent-strong: rgba(224, 191, 0, 0.35);
+    --shadow: rgba(0, 0, 0, 0.1);
+    --card-bg: rgba(255, 255, 255, 0.25);
+    --nav-bg: rgba(255, 255, 255, 0.95);
+    --code-bg: #e0bf00;
+    --border-color: rgba(26, 26, 26, 0.08);
+    --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-duration: 0.8s;
+}
+
+/* Обновляем все элементы, использующие этот шрифт */
+.service-name,
+.menu-item,
+.simulation-button,
+.main-title,
+.exam-bold,
+.favorite-description {
+    font-family: var(--soyuz-font);
+}
+
+/* Премиальный фон для светлой темы */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(
+        135deg,
+        #FFFFFF 0%,
+        #F8F8F8 20%,
+        #FFFFFF 40%,
+        #F9F9F9 60%,
+        #FFFFFF 80%,
+        #F8F8F8 100%
+    ) !important;
+    background-size: 400% 400% !important;
+    background-attachment: fixed !important;
+    position: relative;
+}
+
+/* Добавляем тонкую золотую сетку для светлой темы */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(45deg, transparent 98%, rgba(224, 191, 0, 0.1) 100%),
+        linear-gradient(-45deg, transparent 98%, rgba(224, 191, 0, 0.1) 100%);
+    background-size: 30px 30px;
+    z-index: -1;
+}
+
+/* Добавляем мягкое свечение для светлой темы */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at 50% 50%,
+        rgba(224, 191, 0, 0.03) 0%,
+        rgba(224, 191, 0, 0.02) 45%,
+        transparent 70%
+    );
+    z-index: -2;
+}
+
+/* Премиальный фон для темной темы */
+[data-theme="dark"] body {
+    background: linear-gradient(
+        135deg,
+        #0A0A0A 0%,
+        #111111 20%,
+        #0A0A0A 40%,
+        #0F0F0F 60%,
+        #0A0A0A 80%,
+        #111111 100%
+    ) !important;
+    background-size: 400% 400% !important;
+    background-attachment: fixed !important;
+}
+
+/* Золотая сетка для темной темы */
+[data-theme="dark"] body::before {
+    background-image: 
+        linear-gradient(45deg, transparent 98%, rgba(255, 215, 0, 0.15) 100%),
+        linear-gradient(-45deg, transparent 98%, rgba(255, 215, 0, 0.15) 100%);
+    background-size: 30px 30px;
+    opacity: 0.5;
+}
+
+/* Премиальное свечение для темной темы */
+[data-theme="dark"] body::after {
+    background: radial-gradient(
+        circle at 50% 50%,
+        rgba(255, 215, 0, 0.08) 0%,
+        rgba(255, 215, 0, 0.05) 45%,
+        transparent 70%
+    );
+}
+
+/* Дополнительный эффект глубины для темной темы */
+[data-theme="dark"] .content-wrapper::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 215, 0, 0.03) 0%,
+        transparent 100%
+    );
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Добавляем тонкую сетку поверх градиента */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-image: 
+        linear-gradient(rgba(224, 191, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(224, 191, 0, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: -1;
+}
+
+/* Сетка для темной темы */
+[data-theme="dark"] body::after {
+    background-image: 
+        linear-gradient(rgba(255, 215, 0, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 215, 0, 0.08) 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.5;
+}
+
+/* Добавляем дополнительные плавающие элементы */
+.floating-shapes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.floating-shapes::before {
+    content: '△';
+    position: absolute;
+    font-size: 30px;
+    color: #e0bf00;
+    opacity: 0.2;
+    animation: float-triangle 20s ease-in-out infinite;
+}
+
+.floating-shapes::after {
+    content: '◯';
+    position: absolute;
+    font-size: 40px;
+    color: #e0bf00;
+    opacity: 0.2;
+    animation: float-circle 25s ease-in-out infinite;
+}
+
+@keyframes float-triangle {
+    0%, 100% {
+        top: 10%;
+        left: 10%;
+        transform: rotate(0deg);
+    }
+    25% {
+        top: 20%;
+        left: 80%;
+        transform: rotate(90deg);
+    }
+    50% {
+        top: 80%;
+        left: 80%;
+        transform: rotate(180deg);
+    }
+    75% {
+        top: 80%;
+        left: 10%;
+        transform: rotate(270deg);
+    }
+}
+
+@keyframes float-circle {
+    0%, 100% {
+        top: 80%;
+        left: 80%;
+        transform: scale(1);
+    }
+    25% {
+        top: 80%;
+        left: 20%;
+        transform: scale(1.2);
+    }
+    50% {
+        top: 20%;
+        left: 20%;
+        transform: scale(1);
+    }
+    75% {
+        top: 20%;
+        left: 80%;
+        transform: scale(1.2);
+    }
+}
+
+/* Навигационная панель */
+.navbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 9999 !important; /* Увеличили z-index, чтобы панель была поверх всего */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+/* Добавляем отступ для контента под фиксированной навигацией */
+.content-wrapper {
+    padding-top: 120px !important; /* Увеличили отступ, чтобы контент не прятался под навбаром */
+    transform: scale(0.7);
+    transform-origin: top center;
+    width: 142.85714%;
+    margin-left: -21.42857%;
+    overflow-x: hidden;
+}
+
+/* Исправляем масштабирование и центрирование */
+.content-wrapper {
+    transform: scale(0.7);
+    transform-origin: top center;
+    width: 142.85714%; /* 100% / 0.7 */
+    margin-left: -21.42857%; /* (100% - 142.85714%) / 2 */
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Обновляем стили для логотипа и меню */
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Стили для кнопки темы в меню - увеличиваем специфичность */
+.navbar .theme-toggle {
+    position: relative;
+    width: 65px !important; /* Уменьшили с 85px */
+    height: 65px !important; /* Уменьшили с 85px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--card-bg);
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 25px;
+    box-shadow: 0 4px 20px rgba(224, 191, 0, 0.2);
+}
+
+.navbar .theme-toggle-icon {
+    width: 35px !important; /* Уменьшили с 45px */
+    height: 35px !important;
+    color: var(--accent);
+}
+
+/* Эффекты при наведении */
+.theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(224, 191, 0, 0.3);
+    background: rgba(224, 191, 0, 0.1);
+}
+
+/* Стили для темной темы */
+[data-theme="dark"] .theme-toggle {
+    border-color: var(--accent);
+    box-shadow: 0 2px 10px rgba(255, 215, 0, 0.2);
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    background: rgba(255, 215, 0, 0.1);
+}
+
+/* Мобильная версия */
+@media screen and (max-width: 768px) {
+    .navbar .theme-toggle {
+        width: 50px !important; /* Уменьшили с 65px */
+        height: 50px !important;
+    }
+
+    .navbar .theme-toggle-icon {
+        width: 25px !important; /* Уменьшили с 35px */
+        height: 25px !important;
+    }
+}
+
+.icon {
+    width: 83px;
+    height: 83px;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.icon:hover {
+    transform: rotate(5deg) scale(1.05);
+}
+
+.service-name {
+    font-family: "Soyuz Grotesk", sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
+}
+
+.service-name:hover {
+    color: #e0bf00;
+}
+
+/* Меню */
+.menu-item {
+    font-family: "Soyuz Grotesk", sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.menu-item:hover {
+    color: #e0bf00;
+}
+
+.menu-item:not(.simulation-button)::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    bottom: -5px;
+    left: 0;
+    background-color: #e0bf00;
+    transition: width 0.3s ease;
+}
+
+.menu-item:not(.simulation-button):hover::after {
+    width: 100%;
+}
+
+/* Стили для ссылок в меню */
+.menu-item a {
+    color: inherit !important; /* Наследуем цвет от родителя */
+    text-decoration: none !important; /* Убираем подчеркивание */
+}
+
+.menu-item a:visited,
+.menu-item a:hover,
+.menu-item a:active,
+.menu-item a:focus {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+/* Сохраняем эффект подчеркивания для пунктов с ссылками */
+.menu-item:not(.simulation-button) a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    bottom: -5px;
+    left: 0;
+    background-color: #e0bf00;
+    transition: width 0.3s ease;
+}
+
+.menu-item:not(.simulation-button):hover a::after {
+    width: 100%;
+}
+
+/* Обновленные стили для кнопки симуляции */
+.simulation-button {
+    background: var(--accent);
+    color: #000000;
+    border: 2px solid var(--accent);
+    border-radius: 157px;
+    padding: 18px 43px;
+    text-transform: uppercase;
+    font-family: var(--soyuz-font);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    isolation: isolate;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+/* Добавляем эффект градиентного перехода */
+.simulation-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    border-radius: inherit;
+    z-index: -1;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.simulation-button:hover {
+    color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--accent-light);
+}
+
+.simulation-button:hover::before {
+    background: var(--bg-primary);
+    transform: scale(1.05);
+}
+
+/* Специфичные стили для темной темы */
+[data-theme="dark"] .simulation-button {
+    background: var(--accent);
+    color: #000000;
+    border: 2px solid var(--accent);
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
+}
+
+[data-theme="dark"] .simulation-button:hover {
+    box-shadow: 0 8px 30px rgba(255, 215, 0, 0.3);
+}
+
+/* Специальные стили для кнопки симуляции */
+.simulation-button a {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+.simulation-button a:visited,
+.simulation-button a:hover,
+.simulation-button a:active,
+.simulation-button a:focus {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+/* Заголовок */
+.header {
+    text-align: center;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.main-title {
+    font-family: "Soyuz Grotesk", sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    color: var(--text-primary);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.main-title .highlight {
+    color: #e0bf00;
+    position: relative;
+    display: inline-block;
+    text-shadow: 0 0 10px rgba(224, 191, 0, 0.3);
+}
+
+.main-title .highlight::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 8px;
+    bottom: 5px;
+    left: 0;
+    background-color: rgba(224, 191, 0, 0.2);
+    z-index: -1;
+}
+
+.sub-title {
+    font-family: var(--vibes-font);
+    font-weight: 400;
+    font-size: 48px;
+    color: var(--text-primary);
+    margin-top: -40px;
+    position: relative;
+    animation: float 3s ease-in-out infinite;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Обновляем стили для инструкций */
+.exam-instructions {
+    text-align: center;
+    line-height: 1.5;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 0 0 1px var(--border-color);
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+/* Добавляем стили для нового текста */
+.auto-copy-hint {
+    font-family: var(--soyuz-font);
+    font-size: 28px;
+    margin-top: 15px;
+    opacity: 0.8;
+    font-style: italic;
+    color: #000000; /* Черный цвет для светлой темы */
+}
+
+.exam-instructions:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.exam-bold {
+    font-family: var(--soyuz-font);
+    font-weight: 700;
+    font-size: 42px;
+    color: var(--text-primary);
+}
+
+.exam-italic {
+    font-family: var(--vibes-font);
+    font-weight: 400;
+    font-size: 54px;
+    color: #e0bf00;
+}
+
+/* Обновляем стили для код-блока */
+.code-block {
+    margin-top: 30px;
+    padding: 15px 40px;
+    background: var(--accent);
+    border-radius: 50px;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(224, 191, 0, 0.3);
+    transition: all 0.3s ease;
+    width: 60%;
+    max-width: 800px;
+    cursor: pointer;
+}
+
+.code-text {
+    font-family: Arial, sans-serif;
+    font-weight: 500;
+    font-size: 28px;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+}
+
+.code-first, .code-rest {
+    color: inherit;
+}
+
+/* Стили для выделения текста */
+.code-first::selection,
+.code-rest::selection {
+    background: transparent;
+    color: #FFFFFF;
+}
+
+/* Стили для темной темы */
+[data-theme="dark"] .code-text,
+[data-theme="dark"] .code-first,
+[data-theme="dark"] .code-rest {
+    color: var(--bg-primary);
+}
+
+[data-theme="dark"] .code-first::selection,
+[data-theme="dark"] .code-rest::selection {
+    background: transparent;
+    color: #FFFFFF;
+}
+
+/* Эффект при копировании */
+.code-block.copied {
+    transform: scale(0.98);
+    transition: transform 0.15s ease;
+}
+
+/* Обновляем стили для секции скриншотов */
+.screenshots {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+    padding: 40px;
+    max-width: 1300px;
+    width: 95%;
+    margin: 40px auto;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+/* Базовые стили для всех скриншотов */
+.screenshot {
+    border-radius: 20px;
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    filter: none;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    border: 1px solid var(--border-color);
+}
+
+/* Специальные стили только для первого фото (simulation) */
+.screenshot.simulation {
+    max-width: 1960px;  /* Увеличиваем на 40% от предыдущего значения 1400px */
+    width: 95%;
+    margin: 0 auto;
+    cursor: zoom-in;
+}
+
+/* Стандартный размер для второго фото (link) */
+.screenshot.link {
+    max-width: 1260px;  /* Увеличиваем на 40% от предыдущего значения 900px */
+    width: 90%;
+}
+
+/* Обновляем медиа-запросы для больших экранов */
+@media (min-width: 1400px) {
+    .screenshot.simulation {
+        max-width: 2240px;  /* Увеличиваем на 40% от предыдущего значения 1600px */
+    }
+    
+    .screenshot.link {
+        max-width: 1400px;
+    }
+}
+
+/* Убираем специфичные стили для simulation и link */
+.simulation, .link {
+    border-radius: 20px;
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.favorite-description {
+    text-align: center; /* Центрирование текста */
+    margin-top: 40px; /* Отступ сверху */
+    line-height: 1.5; /* Межстрочный интервал */
+    font-family: "Soyuz Grotesk", sans-serif; /* Основной шрифт */
+    font-weight: 700; /* Жирность текста */
+    font-size: 36px; /* Размер текста */
+    color: var(--text-primary); /* Цвет текста */
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.favorite-description .favorite-highlight {
+    font-family: var(--vibes-font);
+    font-weight: 400;
+    font-size: 64px;
+    color: #e0bf00;
+    position: relative;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.favorite-description .favorite-highlight:hover {
+    transform: scale(1.1);
+    text-shadow: 2px 2px 4px rgba(224, 191, 0, 0.3);
+}
+
+/* Обновляем стили для окна "Любимый" */
+.favorite-window {
+    display: flex;
+    justify-content: center;
+    margin: 60px auto;
+    max-width: 1200px;
+    padding: 0 40px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.favorite-image {
+    border-radius: 20px;
+    width: 100%;
+    max-width: 1000px;  /* Увеличиваем максимальную ширину */
+    height: auto;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);  /* Усиливаем тень */
+    position: relative;
+    overflow: hidden;
+    filter: none;
+    image-rendering: -webkit-optimize-contrast;  /* Улучшаем четкость */
+    image-rendering: crisp-edges;
+    border: 1px solid var(--border-color);
+}
+
+.favorite-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.1),
+        rgba(224, 191, 0, 0.1)
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.favorite-image:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+}
+
+.favorite-image:hover::after {
+    opacity: 1;
+}
+
+/* Медиа-запросы для больших экранов */
+@media (min-width: 1400px) {
+    .favorite-window {
+        max-width: 1400px;
+    }
+    
+    .favorite-image {
+        max-width: 1200px;  /* Ещё больше на широких экранах */
+    }
+}
+
+/* Обновляем медиа-запросы для мобильных устройств */
+@media screen and (max-width: 768px) {
+    /* Код-блок для мобильных */
+    .code-block {
+        width: 85%;
+        padding: 12px 20px;
+        margin: 15px auto;
+        box-shadow: 0 4px 20px rgba(224, 191, 0, 0.25);
+    }
+
+    .code-text {
+        font-size: 18px;
+        line-height: 1.4;
+    }
+
+    /* Уведомление о копировании для мобильных */
+    .copy-notification {
+        width: 85%;
+        max-width: 300px;
+        padding: 14px 20px;
+        font-size: 16px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.95) !important; /* Увеличиваем непрозрачность для светлой темы */
+        border: 1px solid var(--accent);
+        box-shadow: 0 4px 15px rgba(224, 191, 0, 0.15);
+    }
+
+    /* Эффекты копирования для мобильных */
+    .text-copied {
+        transition: color 0.2s ease !important;
+    }
+
+    .code-block.copied {
+        transform: scale(0.97);
+    }
+
+    /* Улучшенная анимация уведомления */
+    .copy-notification.show {
+        animation: slideInNotification 0.3s ease forwards;
+    }
+
+    @keyframes slideInNotification {
+        from {
+            transform: translateX(-50%) translateY(-100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(-50%) translateY(10px);
+            opacity: 1;
+        }
+    }
+
+    /* Стили для темной темы на мобильных */
+    [data-theme="dark"] .copy-notification {
+        background: rgba(10, 10, 10, 0.95) !important; /* Сохраняем темный фон для темной темы */
+        border: 1px solid var(--accent);
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15);
+    }
+
+    /* Улучшенные эффекты при касании */
+    .code-block:active {
+        transform: scale(0.98);
+        transition: transform 0.2s ease;
+    }
+
+    /* Оптимизация для слабых устройств */
+    @media (prefers-reduced-motion: reduce) {
+        .copy-notification {
+            animation: none;
+            transition: none;
+        }
+
+        .code-block, .text-copied {
+            transition: none !important;
+        }
+    }
+
+    /* Обновленные стили кнопки якоря для мобильных устройств */
+    .scroll-to-top {
+        right: 20px;
+        bottom: 20px;
+        width: 48px;
+        height: 48px;
+        background: var(--accent);
+        border-radius: 50%;
+        box-shadow: 0 4px 15px rgba(224, 191, 0, 0.25);
+        border: 1.5px solid rgba(255, 255, 255, 0.2);
+        transform: scale(0.9); /* Немного уменьшаем размер для мобильных */
+    }
+
+    /* Улучшенная стрелка для мобильных */
+    .scroll-to-top::before {
+        width: 12px;
+        height: 12px;
+        border-width: 1.5px;
+        margin-top: 4px;
+    }
+
+    /* Эффекты при касании для мобильных */
+    .scroll-to-top:active {
+        transform: scale(0.85);
+        box-shadow: 0 2px 10px rgba(224, 191, 0, 0.2);
+    }
+
+    /* Анимация появления для мобильных */
+    .scroll-to-top.visible {
+        animation: fadeInButton 0.3s ease forwards;
+    }
+
+    @keyframes fadeInButton {
+        from {
+            opacity: 0;
+            transform: translateY(10px) scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(0.9);
+        }
+    }
+
+    /* Стили для темной темы на мобильных */
+    [data-theme="dark"] .scroll-to-top {
+        background: var(--accent);
+        border-color: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15);
+    }
+
+    /* Пульсация для мобильных */
+    .scroll-to-top.pulse {
+        animation: mobilePulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes mobilePulse {
+        0% {
+            box-shadow: 0 4px 15px rgba(224, 191, 0, 0.25);
+        }
+        70% {
+            box-shadow: 0 4px 15px rgba(224, 191, 0, 0.4);
+        }
+        100% {
+            box-shadow: 0 4px 15px rgba(224, 191, 0, 0.25);
+        }
+    }
+
+    /* Стили для подсказки об автокопировании */
+    .auto-copy-hint {
+        font-size: 22px;
+    }
+}
+
+/* Дополнительные стили для очень маленьких экранов */
+@media screen and (max-width: 375px) {
+    .code-block {
+        width: 90%;
+        padding: 10px 15px;
+    }
+
+    .code-text {
+        font-size: 16px;
+    }
+
+    .copy-notification {
+        width: 90%;
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+
+    .scroll-to-top {
+        right: 15px;
+        bottom: 15px;
+        width: 42px;
+        height: 42px;
+    }
+
+    .scroll-to-top::before {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+/* Добавляем плавную анимацию для всех элементов */
+* {
+    transition: background-color var(--transition-duration) var(--transition-timing),
+                color var(--transition-duration) var(--transition-timing),
+                border-color var(--transition-duration) var(--transition-timing),
+                box-shadow var(--transition-duration) var(--transition-timing);
+}
+
+/* Добавляем стилизацию для выделения текста */
+::selection {
+    background: #e0bf00;
+    color: #fff;
+}
+
+/* Добавляем стильный скролл */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+    border: 2px solid var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #c4a600;
+}
+
+/* Добавляем анимацию загрузки страницы */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.header, .exam-instructions, .screenshots, .favorite-description, .favorite-window {
+    animation: fadeIn 1s ease-out forwards;
+    opacity: 0;
+}
+
+.header { animation-delay: 0.2s; }
+.exam-instructions { animation-delay: 0.4s; }
+.screenshots { animation-delay: 0.6s; }
+.favorite-description { animation-delay: 0.8s; }
+.favorite-window { animation-delay: 1s; }
+
+/* Добавляем эффект при фокусе на элементах */
+:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(224, 191, 0, 0.3);
+}
+
+/* Улучшаем отображение на мобильных устройствах */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px 20px;
+    }
+
+    .menu {
+        gap: 20px;
+    }
+
+    .service-name, .menu-item {
+        font-size: 30px;
+    }
+
+    .simulation-button {
+        padding: 12px 25px;
+        font-size: 30px;
+    }
+
+    .main-title {
+        font-size: 36px;
+    }
+
+    .sub-title {
+        font-size: 32px;
+    }
+
+    .exam-instructions {
+        padding: 20px;
+        width: 85%;
+    }
+
+    .exam-bold {
+        font-size: 32px;
+    }
+
+    .exam-italic {
+        font-size: 42px;
+    }
+
+    .code-block {
+        padding: 15px 30px;
+        font-size: 24px;
+        width: 90%;
+    }
+
+    .screenshots {
+        padding: 20px;
+        gap: 30px;
+    }
+
+    .screenshot {
+        max-width: 100%;
+        border-radius: 15px;
+    }
+
+    .favorite-window {
+        padding: 20px;
+        margin: 30px auto;
+    }
+}
+
+/* Улучшенная кнопка переключения темы */
+.theme-toggle {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s var(--transition-timing);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Центрирование иконки внутри кнопки */
+.theme-toggle-icon {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Премиальная анимация смены темы */
+.theme-transition {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.8s var(--transition-timing);
+}
+
+.theme-transition::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-primary);
+    clip-path: circle(0% at top right);
+    transition: clip-path 1.2s var(--transition-timing);
+}
+
+.theme-transition::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at center, var(--accent-light) 0%, transparent 70%),
+        repeating-linear-gradient(
+            45deg,
+            var(--bg-primary) 0%,
+            var(--bg-secondary) 100%
+        );
+    background-size: 200% 200%;
+    clip-path: circle(0% at top right);
+    transition: clip-path 1s var(--transition-timing);
+    transition-delay: 0.1s;
+}
+
+.theme-transition.active {
+    opacity: 1;
+}
+
+.theme-transition.active::before {
+    clip-path: circle(150% at top right);
+}
+
+.theme-transition.active::after {
+    clip-path: circle(150% at top right);
+}
+
+/* Обновленные переменные для темной темы */
+[data-theme="dark"] {
+    --bg-primary: #0A0A0A;
+    --bg-secondary: #141414;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B3B3B3;
+    --accent: #FFD700;
+    --accent-light: rgba(255, 215, 0, 0.15);
+    --accent-medium: rgba(255, 215, 0, 0.25);
+    --accent-strong: rgba(255, 215, 0, 0.35);
+    --shadow: rgba(0, 0, 0, 0.4);
+    --card-bg: rgba(20, 20, 20, 0.95);
+    --nav-bg: rgba(10, 10, 10, 0.95);
+    --border-color: rgba(255, 215, 0, 0.1);
+}
+
+/* Обеспечиваем правильное применение цветов */
+body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: 
+        background-color 0.8s var(--transition-timing),
+        color 0.8s var(--transition-timing);
+}
+
+/* Обновляем стили для всех текстовых элементов */
+.service-name,
+.menu-item,
+.main-title,
+.sub-title,
+.exam-bold,
+.exam-italic,
+.favorite-description,
+.hide-title,
+.warning-title,
+.warning-text {
+    color: var(--text-primary);
+    transition: color 0.8s var(--transition-timing);
+}
+
+/* Добавляем эффект свечения при смене темы */
+[data-theme="dark"] .theme-toggle::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: radial-gradient(circle at center, var(--accent) 0%, transparent 70%);
+    opacity: 0.2;
+    border-radius: inherit;
+    z-index: -1;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        opacity: 0.2;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0.4;
+        transform: scale(1.1);
+    }
+}
+
+/* Добавляем стили для разных цветовых схем */
+[data-theme="blue"] {
+    --gradient-color-1: rgba(0, 123, 255, 0.1);
+    --gradient-color-2: rgba(0, 123, 255, 0.05);
+}
+
+[data-theme="purple"] {
+    --gradient-color-1: rgba(123, 0, 255, 0.1);
+    --gradient-color-2: rgba(123, 0, 255, 0.05);
+}
+
+[data-theme="green"] {
+    --gradient-color-1: rgba(0, 255, 123, 0.1);
+    --gradient-color-2: rgba(0, 255, 123, 0.05);
+}
+
+/* Добавляем эффекты при наведении */
+.navbar:hover ~ * {
+    filter: blur(2px);
+}
+
+.exam-instructions:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.exam-instructions:hover ~ *,
+.exam-instructions:hover ~ * *:not(.exam-instructions *) {
+    filter: blur(2px);
+}
+
+.code-block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(224, 191, 0, 0.4);
+}
+
+.code-block:hover ~ *,
+.code-block:hover ~ * *:not(.code-block *) {
+    filter: blur(2px);
+}
+
+.screenshot:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.screenshots:hover > *:not(:hover) {
+    filter: blur(2px);
+}
+
+.favorite-image:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.favorite-window:hover ~ *,
+.favorite-window:hover ~ * *:not(.favorite-window *) {
+    filter: blur(2px);
+}
+
+/* Обновляем стили для кнопок цвета */
+.theme-toggle:hover > *:not(:hover) {
+    filter: blur(1px);
+}
+
+.theme-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Стили для секции с инструкциями по скрытию */
+.hide-instructions {
+    text-align: center;
+    padding: 40px;
+    margin: 40px auto;
+    max-width: 1200px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    position: relative;  /* Добавляем позиционирование */
+    z-index: 10;  /* Увеличиваем z-index */
+    isolation: isolate;  /* Изолируем от других эффектов */
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.hide-title {
+    font-family: var(--soyuz-font);
+    font-size: 36px;
+    margin-bottom: 30px;
+    color: var(--text-primary);
+}
+
+.highlight-number {
+    font-family: var(--vibes-font);
+    color: #e0bf00;
+    font-size: 48px;
+}
+
+.hide-methods {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-family: var(--soyuz-font);
+    font-size: 32px;
+    line-height: 1.8;
+}
+
+.key-combo {
+    color: #e0bf00;
+    font-weight: bold;
+    padding: 5px 10px;
+    background: rgba(224, 191, 0, 0.1);
+    border-radius: 8px;
+}
+
+.gesture-text {
+    font-family: var(--vibes-font);
+    font-size: 42px;
+    color: #e0bf00;
+}
+
+.language-note {
+    font-family: var(--soyuz-font);
+    font-size: 32px;
+    color: var(--text-primary);
+    margin: 20px 0;
+}
+
+.highlight-lang {
+    font-family: var(--vibes-font);
+    font-size: 42px;
+    color: #e0bf00;
+}
+
+/* Стили для схемы жеста */
+.gesture-scheme {
+    margin: 40px auto;
+    max-width: 800px;
+    position: relative;
+}
+
+.gesture-image {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    filter: none;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    border: 1px solid var(--border-color);
+}
+
+.gesture-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Стили для блока с предупреждением */
+.warning-block {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.warning-title {
+    font-family: var(--soyuz-font);
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.warning-text {
+    font-family: var(--soyuz-font);
+    font-size: 28px;
+    line-height: 1.5;
+    margin: 10px 0;
+}
+
+.key-highlight {
+    color: #e0bf00;
+    font-weight: bold;
+    padding: 2px 8px;
+    background: rgba(224, 191, 0, 0.1);
+    border-radius: 6px;
+}
+
+/* Обновляем эффекты при наведении */
+.hide-instructions:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.2);
+    z-index: 100;  /* Увеличиваем z-index при наведении */
+}
+
+/* Отключаем эффекты размытия от других элементов */
+.navbar:hover ~ .hide-instructions,
+.exam-instructions:hover ~ .hide-instructions,
+.code-block:hover ~ .hide-instructions,
+.screenshots:hover ~ .hide-instructions,
+.favorite-window:hover ~ .hide-instructions {
+    filter: none !important;
+}
+
+/* Убираем размытие для всего содержимого блока */
+.hide-instructions,
+.hide-instructions *,
+.hide-instructions .gesture-image,
+.hide-instructions .warning-block {
+    filter: none !important;
+}
+
+/* Премиальные улучшения */
+
+/* Добавляем тонкую линию подсветки для навигации */
+.navbar::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--accent) 20%,
+        var(--accent) 80%,
+        transparent
+    );
+}
+
+/* Улучшаем эффект hover для всех интерактивных элементов */
+.menu-item:not(.simulation-button),
+.service-name,
+.code-block,
+.favorite-highlight {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.menu-item:not(.simulation-button)::before,
+.service-name::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.menu-item:not(.simulation-button):hover::before,
+.service-name:hover::before {
+    width: 100%;
+}
+
+/* Добавляем эффект свечения для важных элементов */
+.simulation-button,
+.code-block,
+.favorite-highlight {
+    position: relative;
+}
+
+.simulation-button::after,
+.code-block::after,
+.favorite-highlight::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: radial-gradient(circle at center, var(--accent) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: inherit;
+    z-index: -1;
+}
+
+.simulation-button:hover::after,
+.code-block:hover::after,
+.favorite-highlight:hover::after {
+    opacity: 0.3;
+}
+
+/* Улучшаем анимацию появления элементов */
+@keyframes slideInFade {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.header,
+.exam-instructions,
+.screenshots,
+.favorite-description,
+.favorite-window,
+.hide-instructions {
+    animation: slideInFade 0.8s ease-out forwards;
+    animation-play-state: paused;
+    opacity: 0;
+}
+
+/* Добавляем Intersection Observer для анимации при прокрутке */
+.animate-on-scroll {
+    animation-play-state: running;
+}
+
+/* Улучшаем стили скролла */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+    border: 2px solid var(--bg-secondary);
+}
+
+/* Добавляем тонкую рамку для изображений */
+.screenshot,
+.favorite-image,
+.gesture-image {
+    border: 1px solid var(--border-color);
+}
+
+/* Обновленные стили для кнопки якоря */
+.scroll-to-top {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 56px;
+    height: 56px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px var(--accent-light);
+    z-index: 1000;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+}
+
+/* Улучшенная стрелка */
+.scroll-to-top::before {
+    content: '';
+    width: 14px;
+    height: 14px;
+    border-top: 2px solid var(--bg-primary);
+    border-left: 2px solid var(--bg-primary);
+    transform: rotate(45deg);
+    margin-top: 6px;
+    transition: all 0.3s ease;
+}
+
+/* Добавляем эффект свечения */
+.scroll-to-top::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: radial-gradient(circle at center, var(--accent) 0%, transparent 70%);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+/* Состояние видимости */
+.scroll-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Эффекты при наведении */
+.scroll-to-top:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 8px 25px var(--accent-light),
+        0 0 0 2px var(--accent-light);
+}
+
+.scroll-to-top:hover::before {
+    transform: rotate(45deg) scale(1.1);
+}
+
+.scroll-to-top:hover::after {
+    opacity: 0.3;
+}
+
+/* Обновленная анимация пульсации */
+@keyframes pulse {
+    0% {
+        box-shadow: 
+            0 4px 15px var(--accent-light),
+            0 0 0 0 rgba(224, 191, 0, 0.4);
+    }
+    70% {
+        box-shadow: 
+            0 4px 15px var(--accent-light),
+            0 0 0 20px rgba(224, 191, 0, 0);
+    }
+    100% {
+        box-shadow: 
+            0 4px 15px var(--accent-light),
+            0 0 0 0 rgba(224, 191, 0, 0);
+    }
+}
+
+/* Эффект нажатия */
+.scroll-to-top:active {
+    transform: translateY(-2px);
+}
+
+/* Пульсация при первом появлении */
+.scroll-to-top.pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Стили для темной темы */
+[data-theme="dark"] .scroll-to-top {
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+}
+
+[data-theme="dark"] .scroll-to-top:hover {
+    box-shadow: 
+        0 8px 25px rgba(255, 215, 0, 0.3),
+        0 0 0 2px rgba(255, 215, 0, 0.2);
+}
+
+/* Улучшаем эффекты для светлой темы */
+.navbar,
+.exam-instructions,
+.code-block,
+.favorite-window,
+.hide-instructions {
+    position: relative;
+}
+
+.navbar::after,
+.exam-instructions::after,
+.code-block::after,
+.favorite-window::after,
+.hide-instructions::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: radial-gradient(circle at center, var(--accent-strong) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    border-radius: inherit;
+    z-index: -1;
+}
+
+.navbar:hover::after,
+.exam-instructions:hover::after,
+.code-block:hover::after,
+.favorite-window:hover::after,
+.hide-instructions:hover::after {
+    opacity: 1;
+}
+
+/* Обновленные стили для футера */
+.footer {
+    margin-top: 100px;
+    padding: 60px 0 30px;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        var(--bg-secondary) 20%
+    );
+    border-top: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+    transform: none; /* Отменяем масштабирование */
+    width: 100%; /* Полная ширина */
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 60px;
+}
+
+/* Стили для нижней части футера */
+.footer-bottom {
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.copyright {
+    font-family: var(--soyuz-font);
+    font-size: 15px;
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 0 20px;
+}
+
+/* Добавляем стили для текста с паролем */
+.password-text {
+    font-family: 'Good Vibes', cursive;
+    color: var(--accent);
+    font-size: 1.2em; /* Немного увеличиваем размер */
+    display: inline-block;
+    transform: rotate(-2deg); /* Легкий наклон для стиля */
+    margin: 0 5px;
+}
+
+/* Мобильная адаптация */
+@media screen and (max-width: 768px) {
+    /* Навигация */
+    .navbar {
+        padding: 15px 20px;
+    }
+
+    .menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: 80%;
+        background: rgba(255, 255, 255, 0.98); /* Светлый фон для светлой темы */
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        justify-content: center;
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+    }
+
+    .menu.active {
+        right: 0;
+    }
+
+    .menu-item {
+        margin: 15px 0;
+        font-size: 24px;
+        opacity: 0;
+        transform: translateX(20px);
+        transition: all 0.3s ease;
+        color: var(--text-primary); /* Тёмный текст для светлой темы */
+        position: relative;
+        padding: 5px 0;
+    }
+
+    /* Эффект при наведении для светлой темы */
+    .menu-item:hover {
+        color: var(--accent);
+        transform: translateX(10px);
+        text-shadow: 0 0 20px rgba(224, 191, 0, 0.2);
+    }
+
+    /* Подчеркивание при наведении */
+    .menu-item::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--accent);
+        transition: width 0.3s ease;
+    }
+
+    .menu-item:hover::after {
+        width: 100%;
+    }
+
+    /* Стили для темной темы */
+    [data-theme="dark"] .menu {
+        background: rgba(18, 18, 18, 0.98); /* Тёмный фон для темной темы */
+    }
+
+    [data-theme="dark"] .menu-item {
+        color: #FFFFFF; /* Белый текст для темной темы */
+    }
+
+    [data-theme="dark"] .menu-item:hover {
+        color: var(--accent);
+        text-shadow: 0 0 20px rgba(224, 191, 0, 0.4);
+    }
+
+    /* Кнопка симуляции в меню */
+    .menu .simulation-button {
+        margin: 20px 0;
+        font-size: 20px;
+        padding: 15px 30px;
+        transform: none;
+    }
+
+    .menu .simulation-button:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Бургер меню */
+    .burger-menu {
+        display: block;
+        position: relative;
+        width: 35px; /* Увеличили размер */
+        height: 25px;
+        cursor: pointer;
+        z-index: 1000;
+        transform: scale(0.9); /* Начальный масштаб */
+        transition: transform 0.3s ease;
+    }
+
+    .burger-menu:hover {
+        transform: scale(1.1); /* Увеличение при наведении */
+    }
+
+    .burger-line {
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background: var(--accent);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 0 10px rgba(224, 191, 0, 0.2); /* Добавляем свечение */
+    }
+
+    .burger-line:nth-child(1) { 
+        top: 0;
+        width: 80%; /* Разная длина линий */
+    }
+    .burger-line:nth-child(2) { 
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .burger-line:nth-child(3) { 
+        bottom: 0;
+        width: 60%; /* Самая короткая линия */
+    }
+
+    /* Анимация бургера при активации */
+    .burger-menu.active .burger-line {
+        background: var(--accent);
+        width: 100%; /* Все линии одинаковой длины при активации */
+    }
+
+    .burger-menu.active .burger-line:nth-child(1) {
+        transform: rotate(45deg) translate(8px, 8px);
+    }
+    .burger-menu.active .burger-line:nth-child(2) {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    .burger-menu.active .burger-line:nth-child(3) {
+        transform: rotate(-45deg) translate(8px, -8px);
+    }
+
+    /* Стили для меню */
+    .menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: 85%; /* Увеличили ширину */
+        background: rgba(255, 255, 255, 0.85); /* Увеличили прозрачность */
+        backdrop-filter: blur(15px);
+        flex-direction: column;
+        justify-content: center;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+        padding: 60px 40px; /* Увеличили отступы */
+    }
+
+    .menu.active {
+        right: 0;
+    }
+
+    .menu-item {
+        margin: 20px 0; /* Увеличили отступы */
+        font-size: 28px; /* Увеличили размер */
+        opacity: 0;
+        transform: translateX(20px);
+        transition: all 0.4s ease;
+        color: var(--text-primary);
+        position: relative;
+        padding: 8px 0;
+        letter-spacing: 0.5px; /* Добавили разрядку */
+    }
+
+    /* Эффекты при наведении */
+    .menu-item:hover {
+        color: var(--accent);
+        transform: translateX(15px) scale(1.05);
+        text-shadow: 0 0 20px rgba(224, 191, 0, 0.3);
+    }
+
+    /* Подчеркивание */
+    .menu-item::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent), transparent);
+        transition: width 0.4s ease;
+    }
+
+    .menu-item:hover::after {
+        width: 100%;
+    }
+
+    /* Стили для темной темы */
+    [data-theme="dark"] .menu {
+        background: rgba(18, 18, 18, 0.85);
+    }
+
+    [data-theme="dark"] .menu-item {
+        color: #FFFFFF;
+    }
+
+    [data-theme="dark"] .menu-item:hover {
+        color: var(--accent);
+        text-shadow: 0 0 25px rgba(224, 191, 0, 0.5);
+    }
+
+    /* Кнопка симуляции в меню */
+    .menu .simulation-button {
+        margin: 30px 0;
+        font-size: 22px;
+        padding: 18px 35px;
+        transform: none;
+        transition: all 0.4s ease;
+    }
+
+    .menu .simulation-button:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 8px 20px rgba(224, 191, 0, 0.2);
+    }
+
+    /* Заголовки */
+    .main-title {
+        font-size: 32px;
+        line-height: 1.3;
+        padding: 0 20px;
+    }
+
+    .sub-title {
+        font-size: 20px;
+        margin-top: 10px;
+    }
+
+    /* Инструкции */
+    .exam-instructions {
+        padding: 20px;
+        margin: 20px;
+    }
+
+    .exam-bold {
+        font-size: 18px;
+    }
+
+    .exam-italic {
+        font-size: 32px;
+    }
+
+    /* Код */
+    .code-block {
+        padding: 15px;
+        margin: 15px 20px;
+        font-size: 14px;
+    }
+
+    /* Скриншоты */
+    .screenshots {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .screenshot {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    /* Описания */
+    .favorite-description {
+        font-size: 18px;
+        padding: 0 20px;
+    }
+
+    /* Окно Любимый */
+    .favorite-window {
+        padding: 20px;
+    }
+
+    .favorite-image {
+        width: 100%;
+    }
+
+    /* Инструкции по скрытию */
+    .hide-instructions {
+        padding: 20px;
+    }
+
+    .hide-title {
+        font-size: 24px;
+    }
+
+    .hide-methods li {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    /* Футер */
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 30px 20px;
+    }
+
+    .footer-section {
+        text-align: center;
+    }
+
+    .footer-description {
+        margin: 0 auto;
+    }
+
+    /* Кнопка прокрутки */
+    .scroll-to-top {
+        right: 20px;
+        bottom: 20px;
+        width: 48px;
+        height: 48px;
+    }
+}
+
+/* Анимации для мобильного меню */
+@keyframes menuItemFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Дополнительные стили для очень маленьких экранов */
+@media screen and (max-width: 375px) {
+    .main-title {
+        font-size: 28px;
+    }
+
+    .exam-italic {
+        font-size: 28px;
+    }
+
+    .code-block {
+        font-size: 12px;
+    }
+}
+
+/* Стили для слабых устройств */
+.reduce-animations * {
+    animation-duration: 0.1s !important;
+    transition-duration: 0.1s !important;
+}
+
+.simple-gradients {
+    background: var(--bg-primary) !important;
+}
+
+.simple-gradients::before,
+.simple-gradients::after {
+    display: none !important;
+}
+
+.simple-hover .menu-item:hover,
+.simple-hover .service-name:hover,
+.simple-hover .simulation-button:hover,
+.simple-hover .screenshot:hover,
+.simple-hover .favorite-image:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Стиль для сочетания клавиш */
+.arial-font {
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+}
+
+.key-combo.arial-font {
+    color: #e0bf00;
+    font-weight: normal;
+    padding: 5px 10px;
+    background: rgba(224, 191, 0, 0.1);
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+}
+
+/* Стили для эффекта копирования */
+.text-copied {
+    color: #FFFFFF !important;
+    transition: color 0.3s ease !important;
+}
+
+/* Стили для уведомления */
+.copy-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: var(--soyuz-font);
+    font-size: 18px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 9999;
+    border: 1px solid var(--accent);
+    box-shadow: 0 4px 12px rgba(224, 191, 0, 0.1);
+    text-align: center; /* Центрируем текст */
+    display: flex; /* Добавляем flex для лучшего центрирования */
+    align-items: center; /* Центрируем по вертикали */
+    justify-content: center; /* Центрируем по горизонтали */
+    min-width: 200px; /* Минимальная ширина для лучшего вида */
+}
+
+.copy-notification.show {
+    opacity: 1;
+}
+
+/* Стили для темной темы */
+[data-theme="dark"] .copy-notification {
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid var(--accent);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.15);
+}
+
+/* Мобильная версия */
+@media screen and (max-width: 768px) {
+    .copy-notification {
+        width: 85%;
+        max-width: 300px;
+        padding: 14px 20px;
+        font-size: 16px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border: 1px solid var(--accent);
+        box-shadow: 0 4px 15px rgba(224, 191, 0, 0.15);
+        text-align: center; /* Сохраняем центрирование на мобильных */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Стили для секции с советами */
+.tips-section {
+    padding: 40px;
+    margin: 30px auto;
+    background: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: 0 4px 20px var(--shadow);
+    max-width: 1100px; /* Увеличили для лучшего размещения текста */
+}
+
+.tips-title {
+    font-family: var(--soyuz-font);
+    font-size: 48px; /* Увеличили с 42px */
+    color: var(--text-primary);
+    margin-bottom: 40px;
+    text-align: center;
+    letter-spacing: 0.02em;
+}
+
+.tip-block {
+    margin-bottom: 50px;
+    padding: 35px;
+    background: rgba(224, 191, 0, 0.05);
+    border-radius: 15px;
+    border: 1px solid rgba(224, 191, 0, 0.2);
+}
+
+.tip-header {
+    font-family: var(--soyuz-font);
+    font-size: 40px; /* Увеличили с 34px */
+    color: var(--accent);
+    margin-bottom: 30px;
+    letter-spacing: 0.02em;
+}
+
+.tip-text {
+    font-size: 32px; /* Значительно увеличили с 24px */
+    line-height: 1.6;
+    color: var(--text-primary);
+    margin: 20px 0;
+    letter-spacing: 0.01em;
+}
+
+.tip-warning-list p, 
+.tip-success-list p {
+    font-size: 32px; /* Увеличили до размера tip-text */
+    line-height: 1.6;
+    margin: 15px 0;
+    color: var(--text-primary);
+    letter-spacing: 0.01em;
+}
+
+.code-examples {
+    background: rgba(0, 0, 0, 0.05);
+    padding: 35px;
+    border-radius: 10px;
+    margin: 30px 0;
+    font-size: 28px; /* Увеличили с 22px */
+}
+
+.code-wrong, 
+.code-correct {
+    font-family: monospace;
+    font-size: 28px; /* Увеличили с 22px */
+    margin: 15px 0;
+    letter-spacing: 0.02em;
+}
+
+.tip-example {
+    background: rgba(224, 191, 0, 0.1);
+    padding: 20px 30px;
+    border-radius: 8px;
+    display: inline-block;
+    margin: 20px 0;
+    font-family: monospace;
+    font-size: 28px; /* Увеличили с 22px */
+    letter-spacing: 0.02em;
+}
+
+/* Мобильная версия */
+@media screen and (max-width: 768px) {
+    .tips-section {
+        padding: 25px;
+        margin: 25px;
+    }
+
+    .tips-title {
+        font-size: 36px;
+    }
+
+    .tip-header {
+        font-size: 32px;
+    }
+
+    .tip-text, 
+    .tip-warning-list p, 
+    .tip-success-list p {
+        font-size: 26px; /* Увеличили для мобильной версии */
+    }
+
+    .code-examples, 
+    .code-wrong, 
+    .code-correct, 
+    .tip-example {
+        font-size: 24px;
+    }
+}
+
+/* Добавляем стили для списков в советах */
+.tip-warning-list, .tip-success-list {
+    padding: 25px 30px; /* Увеличили padding */
+    margin: 15px 0;
+    border-radius: 10px;
+    background: rgba(224, 191, 0, 0.05);
+}
+
+.tip-warning-list p, .tip-success-list p {
+    font-size: 24px; /* Увеличили размер шрифта как в tip-text */
+    line-height: 1.6;
+    margin: 15px 0;
+    color: var(--text-primary);
+    letter-spacing: 0.01em;
+}
+
+/* Стили для темной темы */
+[data-theme="dark"] .tip-warning-list,
+[data-theme="dark"] .tip-success-list {
+    background: rgba(255, 215, 0, 0.05);
+}
+
+/* Мобильная версия */
+@media screen and (max-width: 768px) {
+    .tip-warning-list, .tip-success-list {
+        padding: 20px 25px;
+    }
+
+    .tip-warning-list p, .tip-success-list p {
+        font-size: 22px; /* Увеличили размер для мобильной версии */
+        margin: 12px 0;
+    }
+}
+
+/* Улучшаем качество отображения текста */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+.tip-footer {
+    text-align: center;
+    font-size: 36px; /* Увеличили с 24px */
+    margin-top: 40px;
+    color: var(--text-primary);
+    font-family: var(--soyuz-font);
+    letter-spacing: 0.02em;
+}
+
+/* Мобильная версия */
+@media screen and (max-width: 768px) {
+    .tip-footer {
+        font-size: 28px; /* Увеличили для мобильной версии */
+        margin-top: 30px;
+    }
+}
+
+/* Стили для темной темы */
+[data-theme="dark"] .navbar {
+    background: rgba(18, 18, 18, 0.95) !important;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.1) !important;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Фиксированная навигация - высокий приоритет */
+body .navbar,
+html .navbar,
+.content-wrapper .navbar,
+div.navbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 99999 !important;
+    transform: none !important;
+    background: var(--nav-bg) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Отступ для контента под фиксированной навигацией */
+body .content-wrapper,
+html .content-wrapper,
+div.content-wrapper {
+    padding-top: 120px !important;
+    margin-top: 0 !important;
+}
+
+/* Темная тема для навбара */
+body[data-theme="dark"] .navbar,
+html[data-theme="dark"] .navbar {
+    background: rgba(18, 18, 18, 0.95) !important;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.1) !important;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Добавляем в самое начало файла, перед всеми остальными стилями */
+body > .navbar,
+html > .navbar,
+#root > .navbar,
+.navbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 999999 !important;
+    transform: none !important;
+    background: var(--nav-bg) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Принудительно устанавливаем отступ для контента */
+body > .content-wrapper,
+html > .content-wrapper,
+#root > .content-wrapper,
+.content-wrapper {
+    padding-top: 120px !important;
+    margin-top: 0 !important;
+}
+
+/* Темная тема для навбара с максимальным приоритетом */
+body[data-theme="dark"] > .navbar,
+html[data-theme="dark"] > .navbar,
+[data-theme="dark"] .navbar {
+    background: rgba(18, 18, 18, 0.95) !important;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.1) !important;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Добавляем стили для элементов внутри навбара */
+.navbar .service-name {
+    font-size: 32px !important; /* Уменьшили с 40px */
+}
+
+.navbar .menu-item {
+    font-size: 28px !important; /* Уменьшили с 40px */
+}
+
+.navbar .simulation-button {
+    font-size: 28px !important; /* Уменьшили с 40px */
+    padding: 12px 30px !important; /* Уменьшили padding */
+}
+
+.navbar .icon {
+    width: 60px !important; /* Уменьшили с 83px */
+    height: 60px !important;
+}
+
+/* Мобильная версия */
+@media screen and (max-width: 768px) {
+    .navbar .service-name {
+        font-size: 24px !important;
+    }
+
+    .navbar .menu-item {
+        font-size: 22px !important;
+    }
+
+    .navbar .simulation-button {
+        font-size: 22px !important;
+        padding: 10px 25px !important;
+    }
+
+    .navbar .icon {
+        width: 45px !important;
+        height: 45px !important;
+    }
+}
+
+/* Добавляем масштабирование для основного контента */
+.main-content {
+    transform: scale(0.7) !important; /* Уменьшаем на 30% */
+    transform-origin: top center !important;
+    width: 142.85714% !important; /* 100% / 0.7 */
+    margin-left: -21.42857% !important; /* (100% - 142.85714%) / 2 */
+    margin-right: -21.42857% !important;
+}
+
+/* Стили для подсказки об автокопировании */
+.auto-copy-hint {
+    font-family: var(--soyuz-font);
+    font-size: 28px;
+    margin-top: 15px;
+    opacity: 0.8;
+    font-style: italic;
+    color: #000000; /* Черный цвет для светлой темы */
+}
+
+/* Стили для темной темы */
+[data-theme="dark"] .auto-copy-hint {
+    color: #FFFFFF !important; /* Белый цвет для темной темы */
+}
+
+/* Мобильная версия */
+@media screen and (max-width: 768px) {
+    .auto-copy-hint {
+        font-size: 22px;
+    }
+}
+
+/* Удаляем эффекты размытия при взаимодействии */
+.navbar:hover ~ *,
+.navbar:active ~ * {
+    filter: none !important;
+}
+
+.exam-instructions:hover ~ *,
+.exam-instructions:active ~ *,
+.exam-instructions:hover ~ * *:not(.exam-instructions *),
+.exam-instructions:active ~ * *:not(.exam-instructions *) {
+    filter: none !important;
+}
+
+.code-block:hover ~ *,
+.code-block:active ~ *,
+.code-block:hover ~ * *:not(.code-block *),
+.code-block:active ~ * *:not(.code-block *) {
+    filter: none !important;
+}
+
+.screenshots:hover > *:not(:hover),
+.screenshots:active > *:not(:active) {
+    filter: none !important;
+}
+
+.favorite-window:hover ~ *,
+.favorite-window:active ~ *,
+.favorite-window:hover ~ * *:not(.favorite-window *),
+.favorite-window:active ~ * *:not(.favorite-window *) {
+    filter: none !important;
+}
+
+/* Удаляем размытие для кнопок */
+.theme-toggle:hover > *:not(:hover),
+.theme-toggle:active > *:not(:active) {
+    filter: none !important;
+}
+
+/* Отключаем размытие для всего содержимого */
+.hide-instructions,
+.hide-instructions *,
+.hide-instructions .gesture-image,
+.hide-instructions .warning-block {
+    filter: none !important;
+}
+
+/* Убираем эффекты размытия из всех элементов */
+.navbar,
+.menu,
+.copy-notification,
+.exam-instructions,
+.code-block,
+.screenshots,
+.favorite-window,
+.theme-toggle,
+.hide-instructions {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* Убираем размытие при любых состояниях */
+*:hover,
+*:active,
+*:focus {
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* Стили для ссылок в футере */
+.footer-link {
+    color: inherit !important;
+    text-decoration: none !important;
+    transition: opacity 0.3s ease;
+}
+
+.footer-link:visited,
+.footer-link:hover,
+.footer-link:active,
+.footer-link:focus {
+    color: inherit !important;
+    text-decoration: none !important;
+    opacity: 0.8;
+}
+
+/* Стили для списка в футере */
+.footer-links li {
+    color: var(--text-primary);
+    transition: opacity 0.3s ease;
+}
+
+.footer-links li:hover {
+    opacity: 0.8;
+}
+
+/* Стили для текста с ссылками в футере */
+.footer-text a {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+.footer-text a:visited,
+.footer-text a:hover,
+.footer-text a:active,
+.footer-text a:focus {
+    color: inherit !important;
+    text-decoration: none !important;
+    opacity: 0.8;
+}
+
+
+
